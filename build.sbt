@@ -5,6 +5,7 @@ val catsV = "2.9.0"
 val catsEffectV = "3.4.4"
 val kafkaV = "2.5.0"
 val log4SV = "1.10.0"
+val logbackV = "1.4.5"
 
 lazy val root = project
   .in(file("."))
@@ -21,9 +22,10 @@ lazy val root = project
       "org.typelevel" %% "cats-core" % catsV,
       "org.typelevel" %% "cats-effect" % catsEffectV,
       "com.github.fd4s" %% "fs2-kafka" % kafkaV,
-      "org.log4s" %% "log4s" % log4SV
+      "org.log4s" %% "log4s" % log4SV,
+      "ch.qos.logback" % "logback-classic" % logbackV withSources ()
     ),
     scalacOptions += "-new-syntax"
   )
 
-mainClass in (Compile, run) := Some("com.cannondev.fs2.RandomProducer")
+mainClass in (Compile, run) := Some("com.cannondev.fs2.Main")
