@@ -20,17 +20,13 @@ object Main extends IOApp:
 
   def start[F[_]](using F: Async[F]) =
     given Settings[F] = Settings[F]
-    val randomProducer = new RandomProducer[F]()
+    val randomProducer1 = new RandomProducer[F]()
+    val randomProducer2 = new RandomProducer[F]()
     val randomConsumer = new RandomNumbersConsumer[F]
     val app = for
-      _ <- F.start(randomProducer.program.compile.drain)
+      _ <- F.start(randomProducer1.program.compile.drain)
+      _ <- F.start(randomProducer2.program.compile.drain)
       _ <- F.start(randomConsumer.stream.compile.drain)
       _ <- F.never
     yield ()
     app
-
-    // app.parMapN((a, b) => ()).as(ExitCode.Success)
-    // RandomProducer.program..merge[IO, IO].compile.drain.as(ExitCode.Success)
-    // RandomProducer.program.con(RandomNumbersConsumer.stream)
-    // val streams = List(RandomProducer.program, RandomNumbersConsumer.stream)
-    // RandomProducer.program(RandomNumbersConsumer.stream).compile.drain.as(ExitCode.Success)

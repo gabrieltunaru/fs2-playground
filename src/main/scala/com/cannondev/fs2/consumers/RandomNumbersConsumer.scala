@@ -12,6 +12,5 @@ class RandomNumbersConsumer[F[_]](using F: Async[F], settings: Settings[F]):
   def stream = KafkaConsumer
     .stream(settings.intComsumerSettings)
     .subscribeTo("NumbersTopic")
-    .evalTap(r => F.pure(println(s"Consumed $r")))
     .records
-    .evalTap(r => F.pure(println(s"Consumed $r")))
+    .evalTap(r => F.pure(println(s"Consumed ${r.record.value}")))
